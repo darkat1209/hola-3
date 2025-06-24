@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cuenta regresiva</title>
+  <style>
+    body {
+      background-color: #0a0a0a;
+      color: #00ffcc;
+      font-family: monospace;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-size: 2rem;
+    }
+    #countdown {
+      font-size: 5rem;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="contenido"></div>
+  <div id="countdown"></div>
+
+  <script>
+    const revelado = localStorage.getItem("revelado");
+    const contenido = document.getElementById("contenido");
+    const countdown = document.getElementById("countdown");
+
+    if (revelado === "true") {
+      contenido.innerHTML = \`
+        <h1>Tu siguiente objetivo ya fue revelado</h1>
+        <p style="font-size: 1.2rem;">html</p>
+      \`;
+
+      // Comentario oculto visible solo con F12 (inspector)
+      const comentario = document.createComment(\`
+        🕳️ Mensaje secreto:
+        "En un mundo construido por acuerdos,
+        la discordia es la única verdad que no necesita consenso."
+      \`);
+      document.body.appendChild(comentario);
+    } else {
+      contenido.innerHTML = \`<h1>Iniciando cuenta regresiva...</h1>\`;
+      let segundos = 30;
+
+      const intervalo = setInterval(() => {
+        countdown.textContent = segundos;
+        segundos--;
+
+        if (segundos < 0) {
+          clearInterval(intervalo);
+          localStorage.setItem("revelado", "true");
+          location.reload();
+        }
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
